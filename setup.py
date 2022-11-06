@@ -447,7 +447,10 @@ def main():
                 os.path.join("src", "python_bindings", "loss_python.cpp"),
             ],
             include_dirs=include_dirs,
-            library_dirs=[os.path.join("/", "usr", "local", "lib")],
+            library_dirs=[
+                os.path.join("/", "usr", "local", "lib"),
+                os.path.join("/", "opt", "homebrew", "lib"),
+            ],
             libraries=libraries,
             language="c++1y",  # TODO: modify this based on cpp_flag(compiler)
             extra_compile_args=["-static-libstdc++"],
