@@ -9,7 +9,10 @@
 #include <tuple>
 #include <functional>
 #include <unordered_map>
+#include <unordered_set>
 #include <string>
+//#include "absl/hash/hash.h"
+//#include "absl/container/flat_hash_map.h"
 
 namespace km {
 /**
@@ -254,9 +257,10 @@ class KMedoids {
 
   /// A map from permutation index of each point to its original index
   std::unordered_map<size_t, size_t> reindex;
+  std::unordered_set<size_t> sigma;
+  size_t* reindex_arr;
 
   size_t maxCacheSize;
-  int* sigma;
   size_t currentCacheSize = 0;
 
   /// Used for debugging only to toggle a fixed permutation of points

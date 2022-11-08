@@ -57,14 +57,14 @@
 				{
 					"directoryIndex" : 1,
 					"id" : "BanditPAM::@145eef247bfb46b6828c",
-					"jsonFile" : "target-BanditPAM-Release-d2c9e45aab6a8cf899fa.json",
+					"jsonFile" : "target-BanditPAM-Release-2a377cc1d3b2c4889727.json",
 					"name" : "BanditPAM",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 1,
 					"id" : "BanditPAM_LIB::@145eef247bfb46b6828c",
-					"jsonFile" : "target-BanditPAM_LIB-Release-2c4ba18b0312ea7df6bf.json",
+					"jsonFile" : "target-BanditPAM_LIB-Release-563878ecaa7f4ed85eaf.json",
 					"name" : "BanditPAM_LIB",
 					"projectIndex" : 0
 				}

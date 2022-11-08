@@ -147,3 +147,62 @@ Parsed CXX implicit link information from above output:
   implicit fwks: [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk/System/Library/Frameworks]
 
 
+Performing C++ SOURCE FILE Test ABSL_INTERNAL_AT_LEAST_CXX17 succeeded with the following output:
+Change Dir: /Users/lukeleeai/LukePAM/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/Applications/CLion.app/Contents/bin/ninja/mac/ninja cmTC_caa64 && [1/2] Building CXX object CMakeFiles/cmTC_caa64.dir/src.cxx.o
+[2/2] Linking CXX executable cmTC_caa64
+ld: warning: directory not found for option '-L/usr/local/opt/llvm/lib'
+ld: warning: directory not found for option '-L/usr/local/opt/ruby/lib,'
+
+
+Source file was:
+#ifdef _MSC_VER
+#  if _MSVC_LANG < 201700L
+#    error "The compiler defaults or is configured for C++ < 17"
+#  endif
+#elif __cplusplus < 201700L
+#  error "The compiler defaults or is configured for C++ < 17"
+#endif
+int main() { return 0; }
+
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /Users/lukeleeai/LukePAM/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/Applications/CLion.app/Contents/bin/ninja/mac/ninja cmTC_38029 && [1/2] Building CXX object CMakeFiles/cmTC_38029.dir/CheckIncludeFile.cxx.o
+[2/2] Linking CXX executable cmTC_38029
+ld: warning: directory not found for option '-L/usr/local/opt/llvm/lib'
+ld: warning: directory not found for option '-L/usr/local/opt/ruby/lib,'
+
+
+
+Performing C++ SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD succeeded with the following output:
+Change Dir: /Users/lukeleeai/LukePAM/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/Applications/CLion.app/Contents/bin/ninja/mac/ninja cmTC_6509e && [1/2] Building CXX object CMakeFiles/cmTC_6509e.dir/src.cxx.o
+[2/2] Linking CXX executable cmTC_6509e
+ld: warning: directory not found for option '-L/usr/local/opt/llvm/lib'
+ld: warning: directory not found for option '-L/usr/local/opt/ruby/lib,'
+
+
+Source file was:
+#include <pthread.h>
+
+static void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_cancel(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+

@@ -4,10 +4,10 @@ include_directories(${PROJECT_SOURCE_DIR}/headers/python_bindings)
 include_directories(${PROJECT_SOURCE_DIR}/headers/carma/include)
 include_directories(${PROJECT_SOURCE_DIR}/headers/carma/include/carma_bits)
 
-set(CMAKE_CXX_FLAGS "-g")
-set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
+#set(CMAKE_CXX_FLAGS "-g")
+#set(CMAKE_BUILD_TYPE Debug)
+#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
 
 add_executable(BanditPAM main.cpp)
 

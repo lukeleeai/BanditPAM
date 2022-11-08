@@ -104,7 +104,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -O0 -O3 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk"
+					"fragment" : "-O3 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk"
 				},
 				{
 					"backtrace" : 2,
@@ -174,11 +174,11 @@
 		"commandFragments" : 
 		[
 			{
-				"fragment" : "-g -O0 -O3",
+				"fragment" : "-O3",
 				"role" : "flags"
 			},
 			{
-				"fragment" : "-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib, -L/usr/local/opt/ruby/lib, \n-L/usr/local/opt/openssl@3/lib, -L/usr/local/opt/zlib/lib, -L/opt/homebrew/opt/armadillo, -L/opt/homebrew/opt/llvm/lib",
+				"fragment" : "-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib, -L/usr/local/opt/ruby/lib,",
 				"role" : "flags"
 			},
 			{

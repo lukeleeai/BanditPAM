@@ -10,6 +10,9 @@
 #include <armadillo>
 #include <unordered_map>
 #include <cmath>
+#include <algorithm>
+#include <iostream>
+#include <array>
 
 namespace km {
 void BanditPAM::fitBanditPAM(const arma::fmat& inputData) {
@@ -29,19 +32,14 @@ void BanditPAM::fitBanditPAM(const arma::fmat& inputData) {
     permutation = arma::randperm(n);
     permutationIdx = 0;
 
+    reindex = {};
+
+    // TODO(@motiwari): Can we parallelize this?
+    #pragma omp parallel for
     for (size_t counter = 0; counter < m; counter++) {
+        sigma.insert(permutation[counter]);
         reindex[permutation[counter]] = counter;
     }
-
-//    if (this->usePerm) {
-//      // TODO(@motiwari): Can we parallelize this?
-//      for (size_t counter = 0; counter < m; counter++) {
-//        reindex[permutation[counter]] = counter;
-//      }
-//    } else {
-//      sigma = new int[n];
-//      std::fill_n(sigma, n, -1);
-//    }
     
   }
 
