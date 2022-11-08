@@ -35,7 +35,7 @@ void BanditPAM::fitBanditPAM(const arma::fmat& inputData) {
     reindex = {};
 
     // TODO(@motiwari): Can we parallelize this?
-    #pragma omp parallel for
+//    #pragma omp parallel for
     for (size_t counter = 0; counter < m; counter++) {
         sigma.insert(permutation[counter]);
         reindex[permutation[counter]] = counter;
