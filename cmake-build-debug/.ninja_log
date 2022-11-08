@@ -1,8 +1,0 @@
-# ninja log v5
-1	2020	1667740524328188957	src/CMakeFiles/BanditPAM_LIB.dir/algorithms/pam.cpp.o	c73859a56de139d5
-1	2027	1667740524335149207	src/CMakeFiles/BanditPAM_LIB.dir/algorithms/fastpam1.cpp.o	dd87ec42267e8f9e
-2201	2248	1667757513932579000	src/libBanditPAM_LIB.a	609ca09212b334aa
-0	2254	1667740524563145791	src/CMakeFiles/BanditPAM.dir/main.cpp.o	b337c6c30480387
-10	2201	1667757513876904124	src/CMakeFiles/BanditPAM_LIB.dir/algorithms/kmedoids_algorithm.cpp.o	1306c78dd73cd028
-2248	2356	1667757514038516749	src/BanditPAM	a306a1569926b788
-10	2086	1667757513759550666	src/CMakeFiles/BanditPAM_LIB.dir/algorithms/banditpam.cpp.o	acb37df32d576d84
