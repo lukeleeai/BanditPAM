@@ -26,7 +26,7 @@ KMedoids::KMedoids(
   size_t maxIter,
   size_t buildConfidence,
   size_t swapConfidence,
-  bool setParallel,
+  bool useParallel,
   size_t seed):
     nMedoids(nMedoids),
     algorithm(algorithm),
