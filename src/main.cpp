@@ -129,30 +129,4 @@ int main(int argc, char* argv[]) {
     auto parallel_duration = duration_cast<microseconds>(parallel_end - parallel_start);
 
     std::cout << "\nWith parallel: " << parallel_duration.count() / 1000000 << " seconds" << std::endl;
-
-    // test no parallel
-    auto single_start = high_resolution_clock::now();
-
-    km::KMedoids kmed2(
-            k,
-            "BanditPAM",
-            useCacheP,
-            usePerm,
-            2000,
-            maxIter,
-            buildConfidence,
-            swapConfidence,
-            false,
-            seed);
-    kmed2.fit(data, loss);
-    for (auto medoid : kmed2.getMedoidsFinal()) {
-      std::cout << medoid << ",";
-    }
-
-    auto single_end = high_resolution_clock::now();
-
-    auto single_duration = duration_cast<microseconds>(single_end - single_start);
-
-    std::cout << "\nWithout parallel: " << single_duration.count() / 1000000 << " seconds" << std::endl;
-
 }
