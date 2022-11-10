@@ -37,9 +37,6 @@ You can skip this step if you've already run `scripts/reproduce_results.sh`.
 /BanditPAM/: ./BanditPAM [options]
 ```
 
-If you don't pass any options, the script will run experiments with `n_medoids=[5, 10]` and `n_data = [10000, 30000]`.
-
-
 ### Options
 ```
 -k  int  number of medoids
