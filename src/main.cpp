@@ -13,8 +13,11 @@
 #include <fstream>
 #include <exception>
 #include <filesystem>
+#include <chrono>
+using namespace std::chrono;
 
 #include "kmedoids_algorithm.hpp"
+
 
 int main(int argc, char* argv[]) {
     std::string input_name;
@@ -31,6 +34,7 @@ int main(int argc, char* argv[]) {
 
     bool useCacheP = false;
     bool usePerm = false;
+    int seed = 0;
 
     while (prev_ind = optind, (opt = getopt(argc, argv, "f:l:k:v:s:cp")) != -1) {
         if ( optind == prev_ind + 2 && *optarg == '-' ) {
@@ -52,6 +56,9 @@ int main(int argc, char* argv[]) {
             // type of loss/distance function to use
             case 'l':
                 loss = optarg;
+                break;
+            case 's':
+                seed = std::stoi(optarg);
                 break;
             case ':':
                 printf("option needs a value\n");
@@ -88,6 +95,10 @@ int main(int argc, char* argv[]) {
 
     arma::fmat data;
     data.load(input_name);
+
+    // test parallel
+    auto parallel_start = high_resolution_clock::now();
+
     km::KMedoids kmed(
       k,
       "BanditPAM",
@@ -97,9 +108,41 @@ int main(int argc, char* argv[]) {
       maxIter,
       buildConfidence,
       swapConfidence,
+      true,
       1);
     kmed.fit(data, loss);
     for (auto medoid : kmed.getMedoidsFinal()) {
       std::cout << medoid << ",";
     }
+
+    auto parallel_end = high_resolution_clock::now();
+
+    auto parallel_duration = duration_cast<microseconds>(parallel_end - parallel_start);
+
+    std::cout << "\nWith parallel: " << parallel_duration.count() / 1000000 << " seconds" << std::endl;
+
+    // test no parallel
+    auto single_start = high_resolution_clock::now();
+
+    km::KMedoids kmed2(
+    k,
+    "BanditPAM",
+    useCacheP,
+    usePerm,
+    2000,
+    maxIter,
+    buildConfidence,
+    swapConfidence,
+    false,
+    seed);
+    kmed2.fit(data, loss);
+    for (auto medoid : kmed2.getMedoidsFinal()) {
+      std::cout << medoid << ",";
+    }
+
+    auto single_end = high_resolution_clock::now();
+
+    auto single_duration = duration_cast<microseconds>(single_end - single_start);
+
+    std::cout << "\nWithout parallel: " << single_duration.count() / 1000000 << " seconds" << std::endl;
 }

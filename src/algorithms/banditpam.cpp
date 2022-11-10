@@ -22,7 +22,7 @@ void BanditPAM::fitBanditPAM(const arma::fmat& inputData) {
     cache = new float[n * m];
     maxCacheSize = m;
 
-    #pragma omp parallel for
+    #pragma omp parallel for if(this->useParallel)
     for (size_t idx = 0; idx < m*n; idx++) {
       cache[idx] = -1;  // TODO(@motiwari): need better value here
     }
@@ -34,7 +34,6 @@ void BanditPAM::fitBanditPAM(const arma::fmat& inputData) {
     for (size_t counter = 0; counter < m; counter++) {
       reindex[permutation[counter]] = counter;
     }
-    
   }
 
   arma::fmat medoidMatrix(data.n_rows, nMedoids);
@@ -72,7 +71,7 @@ arma::frowvec BanditPAM::buildSigma(
 
   arma::fvec sample(batchSize);
   arma::frowvec updated_sigma(N);
-  #pragma omp parallel for
+  #pragma omp parallel for if(this->useParallel)
   for (size_t i = 0; i < N; i++) {
     for (size_t j = 0; j < batchSize; j++) {
       float cost = KMedoids::cachedLoss(data, i, referencePoints(j));
@@ -117,7 +116,7 @@ arma::frowvec BanditPAM::buildTarget(
     referencePoints = arma::randperm(N, tmpBatchSize);
   }
 
-  #pragma omp parallel for
+  #pragma omp parallel for if(this->useParallel)
   for (size_t i = 0; i < target->n_rows; i++) {
     float total = 0;
     for (size_t j = 0; j < referencePoints.n_rows; j++) {
@@ -219,7 +218,7 @@ void BanditPAM::build(
     medoids->unsafe_col(k) = data.unsafe_col((*medoidIndices)(k));
 
     // don't need to do this on final iteration
-    #pragma omp parallel for
+    #pragma omp parallel for if(this->useParallel)
     for (size_t i = 0; i < N; i++) {
         float cost = KMedoids::cachedLoss(data, i, (*medoidIndices)(k));
         if (cost < bestDistances(i)) {
@@ -257,7 +256,7 @@ arma::fmat BanditPAM::swapSigma(
 
   arma::fvec sample(batchSize);
   // for each considered swap
-  #pragma omp parallel for
+  #pragma omp parallel for if(this->useParallel)
   for (size_t i = 0; i < K * N; i++) {
     // extract data point of swap
     size_t n = i / K;
@@ -320,7 +319,7 @@ arma::fvec BanditPAM::swapTarget(
   }
 
   // for each considered swap
-  #pragma omp parallel for
+  #pragma omp parallel for if(this->useParallel)
   for (size_t i = 0; i < targets->n_rows; i++) {
     float total = 0;
     // extract data point of swap

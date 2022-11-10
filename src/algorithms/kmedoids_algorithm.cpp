@@ -26,6 +26,7 @@ KMedoids::KMedoids(
   size_t maxIter,
   size_t buildConfidence,
   size_t swapConfidence,
+  bool setParallel,
   size_t seed):
     nMedoids(nMedoids),
     algorithm(algorithm),
@@ -35,6 +36,7 @@ KMedoids::KMedoids(
     maxIter(maxIter),
     buildConfidence(buildConfidence),
     swapConfidence(swapConfidence),
+    useParallel(useParallel),
     seed(seed) {
   KMedoids::checkAlgorithm(algorithm);
 
@@ -69,9 +71,6 @@ void KMedoids::fit(const arma::fmat& inputData, const std::string& loss) {
   std::cout << "numPulled:         " << numPulled       << "\n";
   std::cout << "numCachedLoaded:   " << numCachedLoaded << "\n";
   std::cout << "numCachedSaved:    " << numCachedSaved  << "\n";
-  std::cout << "numOutsideCache:   " << numOutsideCache << "\n";
-  std::cout << "maxCacheSize:      " << maxCacheSize << "\n";
-  std::cout << "currentCacheSize:  " << currentCacheSize << "\n";
 }
 
 arma::urowvec KMedoids::getMedoidsBuild() const {
@@ -220,7 +219,7 @@ void KMedoids::calcBestDistancesSwap(
   arma::frowvec* secondBestDistances,
   arma::urowvec* assignments,
   const bool swapPerformed) {
-  #pragma omp parallel for
+  #pragma omp parallel for if(this->useParallel)
   for (size_t i = 0; i < data.n_cols; i++) {
     float best = std::numeric_limits<float>::infinity();
     float second = std::numeric_limits<float>::infinity();
@@ -249,7 +248,7 @@ float KMedoids::calcLoss(
   const arma::urowvec* medoidIndices) {
   float total = 0;
   // TODO(@motiwari): is this parallel loop accumulating properly?
-  #pragma omp parallel for
+  #pragma omp parallel for if(this->useParallel)
   for (size_t i = 0; i < data.n_cols; i++) {
     float cost = std::numeric_limits<float>::infinity();
     for (size_t k = 0; k < nMedoids; k++) {

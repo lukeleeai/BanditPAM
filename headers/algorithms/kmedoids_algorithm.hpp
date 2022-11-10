@@ -36,7 +36,8 @@ class KMedoids {
     size_t maxIter = 1000,
     size_t buildConfidence = 1000,
     size_t swapConfidence = 10000,
-    size_t seed = 1);
+    bool useParallel = false,
+    size_t seed = 0);
 
   ~KMedoids();
 
@@ -264,6 +265,8 @@ class KMedoids {
 
   /// Used for debugging only to toggle use of the cache
   bool useCacheP;
+
+  bool useParallel;
 
  protected:
   /**
