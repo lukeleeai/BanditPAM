@@ -16,20 +16,10 @@ Mo Tiwari, Martin Jinye Zhang, James Mayclin, Sebastian Thrun, Chris Piech, Ilan
 }
 ```
 
-# Reproduce the tables
-
-Building this repository requires four external requirements:
-
-- [CMake](https://cmake.org/download/) >= 3.17
-- [Armadillo](http://arma.sourceforge.net/download.html) >= 10.5.3
-- [OpenMP](https://www.openmp.org/resources/openmp-compilers-tools/) >= 2.5 (OpenMP is supported by default on most Linux platforms)
-
-If you're using MacOS, you can install them through [homebrew](https://brew.sh/).
-
-After the installation, run `scripts/reproduce_results.sh`. It will automatically install carma, MNIST, and BanditPAM and reproduce the results in the paper.
-
 
 # Experiment
+
+Test the effect of parallelization using the commands below.
 
 ## Install the dataset before running the experiments
 You can skip this step if you've already run `scripts/reproduce_results.sh`.
@@ -40,7 +30,11 @@ You can skip this step if you've already run `scripts/reproduce_results.sh`.
 
 ## Run the experiments
 ```
-/BanditPAM/: python scripts/experiment.py [options]
+/BanditPAM/: mkdir build && cd build
+/BanditPAM/: cmake ..
+/BanditPAM/: make
+/BanditPAM/: cd src
+/BanditPAM/: ./BanditPAM [options]
 ```
 
 If you don't pass any options, the script will run experiments with `n_medoids=[5, 10]` and `n_data = [10000, 30000]`.
@@ -48,24 +42,40 @@ If you don't pass any options, the script will run experiments with `n_medoids=[
 
 ### Options
 ```
--k, --n_medoids  int/string  default: [5, 10]
--n, --n_data     int/string  default: [10000, 30000]
+-k  int  number of medoids
+-s  int  seed
+-c       flag to turn on useCacheP
+-p       flag to turn on usePerm
 ```
 
-**Example** : Run experiments with `k=3` and `n_data = [1000, 3000]`  
-(Make sure to put a list in double quotes) 
-```
-$ python scripts/experiment.py -k 3 -n "[1000, 3000]"
+**Example**
 
-Cache (X) Perm (X)            Cache (O) Perm (X)            Cache (O) Perm (O)            
-
-[mnist: 1000 | k: 3]
-0.535 (0.041)                 0.149 (0.003)                 0.146 (0.00565)               
-
-[mnist: 3000 | k: 3]
-1.71 (0.107)                  0.738 (0.0476)                0.743 (0.0518)     
+Run the algorithm with caching and permutation
+```bash
+./BanditPAM -f ../../data/MNIST_1k.csv -k 5 -cp
 ```
 
+Run the naive algorithm with seed = 1 
+```bash
+./BanditPAM -f ../../data/MNIST_1k.csv -k 5 -s 1
+```
+
+**Expected results**
+```bash
+$ ./BanditPAM -f ../../data/MNIST_10k.csv -k 5 -cp
+Use cache
+Use perm
+numPulled:         179347000
+numCachedLoaded:   148467524
+numCachedSaved:    23480076
+7405,3662,5553,714,1567,
+With parallel: 14 seconds
+numPulled:         104772306
+numCachedLoaded:   92415046
+numCachedSaved:    22320028
+7405,3662,5553,714,1567,
+Without parallel: 7 seconds
+```
 
 # Requirements
 
