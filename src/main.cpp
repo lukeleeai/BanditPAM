@@ -35,8 +35,9 @@ int main(int argc, char* argv[]) {
     bool useCacheP = false;
     bool usePerm = false;
     int seed = 0;
+    int num_data = 0;
 
-    while (prev_ind = optind, (opt = getopt(argc, argv, "f:l:k:v:s:cp")) != -1) {
+    while (prev_ind = optind, (opt = getopt(argc, argv, "f:l:k:v:s:cpn:")) != -1) {
         if ( optind == prev_ind + 2 && *optarg == '-' ) {
         opt = ':';
         --optind;
@@ -71,6 +72,10 @@ int main(int argc, char* argv[]) {
                 printf("Use perm\n");
                 usePerm = true;
                 break;
+            case 'n':
+                num_data = std::stoi(optarg);
+                std::cout<<"num data: " << num_data << "\n";
+                break;
             case '?':
                 printf("unknown option: %c\n", optopt);
                 return ARGUMENT_ERROR_CODE;
@@ -96,7 +101,11 @@ int main(int argc, char* argv[]) {
     arma::fmat data;
     data.load(input_name);
 
-    // test parallel
+    if (num_data != 0) {
+      data.resize(num_data, data.n_cols);
+    }
+
+  // test parallel
     auto parallel_start = high_resolution_clock::now();
 
     km::KMedoids kmed(
@@ -109,7 +118,7 @@ int main(int argc, char* argv[]) {
       buildConfidence,
       swapConfidence,
       true,
-      1);
+      seed);
     kmed.fit(data, loss);
     for (auto medoid : kmed.getMedoidsFinal()) {
       std::cout << medoid << ",";
